@@ -105,16 +105,65 @@ public class Menu {
                 break;
                  
 			case 3:
-				System.out.println("\n Buscar Conta por número");				
+				System.out.println(Cores.TEXT_WHITE+"Consultar dados da conta - por número\n\n");
+				
+				System.out.println("Digite o número da conta: ");
+				numero = leia.nextInt();
+				
+				contas.procurarPorNumero(numero);
+				
+				keyPress();
 				break;
 				
 			case 4:
-				System.out.println("\n Atualizar dados da Conta");				
-                 break;
+				System.out.println(Cores.TEXT_WHITE+"Atualizar dados da conta\n\n");
+				
+				System.out.println("Digite o número da conta: ");
+				numero = leia.nextInt();
+				
+				if (contas.buscarNaCollection(numero) != null) {
+					
+					System.out.println("Digite o número da agência: ");
+					agencia = leia.nextInt();
+					System.out.println("Digite o nome do titular: ");
+					leia.skip("\\R?");
+					titular = leia.nextLine();
+					
+					System.out.println("Digite o saldo da conta (R$): ");
+					saldo = leia.nextFloat();
+					
+					tipo = contas.retornaTipo(numero);
+					
+					switch (tipo) {
+					case 1 -> {
+						System.out.println("Digite o limite de crédito (R$): ");
+						limite = leia.nextFloat();
+						contas.atualizar(new ContaCorrente(numero, agencia, tipo, titular, saldo, limite));
+					}
+					case 2 -> {
+						System.out.println("Digite o dia do aniversário da conta: ");
+						aniversario = leia.nextInt();
+						contas.atualizar(new ContaPoupanca(numero, agencia, tipo, titular, saldo, aniversario));
+					}
+					default -> {
+						System.out.println("Tipo de conta inválido!");
+					}
+					}
+				}else
+					System.out.println("Conta não encontrada!");
+				keyPress();
+				break;
                  
 			case 5:
-				System.out.println("\n Apagar Conta");				
-                 break;
+				System.out.println(Cores.TEXT_WHITE+"Apagar a conta\n\n");
+				
+				System.out.println("Digite o número da conta: ");
+				numero = leia.nextInt();
+				
+				contas.deletar(numero);
+				
+				keyPress();
+				break;
                  
 			case 6:
 				System.out.println("\n Sacar");				
